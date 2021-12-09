@@ -1,0 +1,1221 @@
+#Test Game
+
+import time,sys
+import random
+import constants
+
+def print_slow(str):
+    for letter in str:
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(0.01)
+
+Alive = True
+
+def game_introduction():
+    print_slow("\n")
+    print_slow("\n")
+    
+    print_slow("Friendly Innkeeper - Hello traveller! Welcome to my inn, you can use it as a waypoint to get to other cities and towns")
+    print_slow("\n")
+    print_slow("and even hire sailors to take you across the great sea!")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Here you can also buy full meals that will sustain you better than items purchased from that blasted grocer's...")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Before I serve you may I dare to ask your name?")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Be Friendly. F")
+    print_slow("\n")
+    print_slow("Be Rude. R")
+    print_slow("\n")
+    print_slow("\n")
+    ask_name = input("Choice: ")
+
+    if ask_name.upper() == "F":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("My name is...")
+        print_slow("\n")
+        print_slow("\n")
+        name = input("Your name: ")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Nice to meet you " + name + ", you're definitely not from these parts but it's a pleasure to welcome you!")
+
+    if ask_name.upper() == "R":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You - That is my own business, not yours.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Friendly Innkeeper - Oh, my apologies dear man, I did not mean any offense...")
+        print_slow("\n")
+        print_slow("\n")
+        constants.reputation += 10
+        print_slow("You have damaged your reputation! Your reputation is now at ")
+        print(str(constants.reputation) + "!")
+        print_slow("If it exceeds 100 shopkeeps will refuse to deal with you!")
+
+    time.sleep(3)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Well... er... as I was saying, you can view items and routes here, weapons and armour are upstairs as well as the monster bounty posters.")
+
+    innkeep_choices()
+
+def fast_travel():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - FAST TRAVEL - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Travel to:")
+    print_slow("\n")
+    print_slow("\n")
+    if constants.atTheCapital == False:
+        print_slow("1. The Capital - 5 Gold")
+        print_slow("\n")
+    print_slow("2. The Establishment - 5 Gold")
+    print_slow("\n")
+    print_slow("3. Blaviken - 5 Gold")
+    print_slow("\n")
+    print_slow("4. Rivermoor - 10 Gold")
+    print_slow("\n")
+    print_slow("5. Swampland Plains - 10 Gold")
+    if constants.atTheDunes == False:
+        print_slow("\n")
+        print_slow("6. The Dunes - 12 Gold")
+    print_slow("\n")
+    print_slow("7. Salt Wave Harbour - 15 Gold")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("B. Back")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Your gold is now at ")
+    print(str(constants.gold) + ".")
+    print_slow("\n")
+    print_slow("\n")
+    fast_travel_choices = input("Choice: ")
+
+    if fast_travel_choices.upper() == "1":
+        if constants.gold >= 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to The Capital.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sure thing, that'll be 5 Gold.")
+            print_slow("\n")
+            print_slow("\n")
+            constants.gold -= 5
+            print_slow("Your gold is now at ")
+            print(str(constants.gold) + ".")
+            constants.atTheCapital = True
+            constants.atTheDunes = False
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Travelling to The Capital...")
+            print_slow("\n")
+            print_slow("\n")
+            time.sleep(2)
+            print_slow("...")
+            time.sleep(2)
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Arrived...")
+            time.sleep(2)
+            the_capital()
+        elif constants.gold < 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to The Capital.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sorry mister, you're short by ")
+            print(str(5 - constants.gold) + " gold. You can earn gold by claiming the monster bounties upstairs.")
+            fast_travel()
+
+    if fast_travel_choices.upper() == "2":
+        if constants.gold >= 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to The Establishment.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sure thing, that'll be 5 Gold.")
+            print_slow("\n")
+            print_slow("\n")
+            constants.gold -= 5
+            print_slow("Your gold is now at ")
+            print(str(constants.gold) + ".")
+            the_establishment()
+        elif constants.gold < 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to The Establishment.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sorry mister, you're short by ")
+            print(str(5 - constants.gold) + " gold. You can earn gold by claiming the monster bounties upstairs.")
+            fast_travel()
+
+    if fast_travel_choices.upper() == "3":
+        if constants.gold >= 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to Blaviken.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sure thing, that'll be 5 Gold.")
+            print_slow("\n")
+            print_slow("\n")
+            constants.gold -= 5
+            print_slow("Your gold is now at ")
+            print(str(constants.gold) + ".")
+            the_blaviken()
+        elif constants.gold < 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to Blaviken.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sorry mister, you're short by ")
+            print(str(5 - constants.gold) + " gold. You can earn gold by claiming the monster bounties upstairs.")
+            fast_travel()
+
+    if fast_travel_choices.upper() == "4":
+        if constants.gold >= 10:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to Rivermoor.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sure thing, that'll be 10 Gold.")
+            print_slow("\n")
+            print_slow("\n")
+            constants.gold -= 10
+            print_slow("Your gold is now at ")
+            print(str(constants.gold) + ".")
+            the_rivermoor()
+        elif constants.gold < 10:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to Rivermoor.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sorry mister, you're short by ")
+            print(str(10 - constants.gold) + " gold. You can earn gold by claiming the monster bounties upstairs.")
+            fast_travel()
+
+    if fast_travel_choices.upper() == "5":
+        if constants.gold >= 10:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to the Swampland Plains.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sure thing, that'll be 10 Gold.")
+            print_slow("\n")
+            print_slow("\n")
+            constants.gold -= 10
+            print_slow("Your gold is now at ")
+            print(str(constants.gold) + ".")
+            the_swampland_plains()
+        elif constants.gold < 10:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to the Swampland Plains.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sorry mister, you're short by ")
+            print(str(10 - constants.gold) + " gold. You can earn gold by claiming the monster bounties upstairs.")
+            fast_travel()
+
+    if fast_travel_choices.upper() == "6":
+        if constants.gold >= 12:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to The Dunes.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sure thing, that'll be 12 Gold.")
+            print_slow("\n")
+            print_slow("\n")
+            constants.gold -= 12
+            print_slow("Your gold is now at ")
+            print(str(constants.gold) + ".")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Travelling to The Dunes...")
+            print_slow("\n")
+            print_slow("\n")
+            time.sleep(2)
+            print_slow("...")
+            time.sleep(2)
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Arrived...")
+            time.sleep(2)
+            the_dunes()
+        elif constants.gold < 12:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to The Dunes.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sorry mister, you're short by ")
+            print(str(12 - constants.gold) + " gold. You can earn gold by claiming the monster bounties upstairs.")
+            fast_travel()
+
+    if fast_travel_choices.upper() == "7":
+        if constants.gold >= 15:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to Salt Wave Harbour.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sure thing, that'll be 15 Gold.")
+            print_slow("\n")
+            print_slow("\n")
+            constants.gold -= 15
+            print_slow("Your gold is now at ")
+            print(str(constants.gold) + ".")
+            the_saltwave_harbour()
+        elif constants.gold < 15:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You - Take me to Salt Wave Harbour.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Friendly Innkeep - Sorry mister, you're short by ")
+            print(str(15 - constants.gold) + " gold. You can earn gold by claiming the monster bounties upstairs.")
+            fast_travel()
+
+    if fast_travel_choices.upper() == "B":
+        innkeep_choices()        
+
+def the_capital():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - THE CAPITAL - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("1. Visit Inn")
+    print_slow("\n")
+    print_slow("2. Visit Grocers")
+    print_slow("\n")
+    print_slow("3. Visit Butchers")
+    print_slow("\n")
+    print_slow("4. Visit Bank")
+    print_slow("\n")
+    print_slow("5. Visit BlackSmith")
+    print_slow("\n")
+    print_slow("\n")
+    the_capital_choices = input("Choice: ")
+
+    if the_capital_choices.upper() == "1":
+        innkeep_choices()
+
+    if the_capital_choices.upper() == "2":
+        grocer_choices()
+
+    if the_capital_choices.upper() == "3":
+        print_slow("\n")
+        print_slow("\n")
+
+def the_establishment():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Travelling to The Establishment...")
+    print_slow("\n")
+    print_slow("\n")
+    time.sleep(2)
+    print_slow("...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Arrived...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - THE ESTABLISHMENT - ")
+
+def the_blaviken():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Travelling to Blaviken...")
+    print_slow("\n")
+    print_slow("\n")
+    time.sleep(2)
+    print_slow("...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Arrived...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - BLAVIKEN - ")
+
+def the_rivermoor():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Travelling to Rivermoor...")
+    print_slow("\n")
+    print_slow("\n")
+    time.sleep(2)
+    print_slow("...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Arrived...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - RIVERMOOR - ")
+
+def the_swampland_plains():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Travelling to the Swampland Plains...")
+    print_slow("\n")
+    print_slow("\n")
+    time.sleep(2)
+    print_slow("...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Arrived...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - THE SWAMPLAND PLAINS - ")
+
+def the_dunes():
+    constants.atTheCapital = False
+    constants.atTheDunes = True
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - THE DUNES - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("1. Visit Inn")
+    print_slow("\n")
+    print_slow("2. Visit Grocers")
+    print_slow("\n")
+    print_slow("3. Visit Wizard's Tower")
+    if constants.TrackingNorthernSlyder_dunes == True:
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("4. Find Northern Slythern")
+        print_slow("\n")
+        print_slow("\n")
+    the_dunes_choices = input("Choice: ")
+
+    if the_dunes_choices.upper() == "1":
+        innkeep_choices()
+
+    if the_dunes_choices.upper() == "2":
+        grocer_choices()
+
+    if the_dunes_choices.upper() == "3":
+        print_slow("\n")
+        print_slow("\n")
+
+    if the_dunes_choices.upper() == "4":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Tracking Nothern Slythern...")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You find it, lurking under a sand dune on the border of the city.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Do you fight it?")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("F. Fight the Slythern")
+        print_slow("\n")
+        print_slow("R. Return to The Dunes and come back later.")
+        print_slow("\n")
+        print_slow("\n")
+        fightorflightslythern = input("Choice: ")
+
+        if fightorflightslythern.upper() == "F":
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You approach the Northern Slythern carefully.")
+            fight_monster()
+
+        if fightorflightslythern.upper() == "R":
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You back off quietly, and return to The Dunes. To cancel a bounty go to any inn and choose to cancel.")
+            the_dunes()
+
+def fight_monster():
+    if constants.TrackingNorthernSlyder_dunes == True:
+        print_slow("\n")
+        print_slow("\n")
+        print_slow(" - NORTHERN SLYTHERN - ")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("It sits back on its haunches and hisses at you.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have ")
+        print(str(constants.health) + " health.")
+        print_slow("\n")
+        print_slow("\n")
+        slythernhealth_random = random.randrange(100, 200)
+        constants.northernslythernhealth += slythernhealth_random
+        print_slow("The Northern Slythern has ")
+        print(str(constants.northernslythernhealth) + " health.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("The Northern Slythern has a random chance of attacking, blocking attacks or nothing at all.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("If you attack at the same time the Northern Slythern will deal damage and you will too.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Parrying can only be used twice per fight, it is a half percent chance of parrying the Slythern but if it")
+        print_slow("\n")
+        print_slow("is successful you can deal great amounts of damage.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Retreating will cancel the bounty and cause you to lose 10 reputation.")
+        fight_northernslythern()
+
+def fight_northernslythern():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("What will you do?")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("1. Attack the Northern Slythern")
+    print_slow("\n")
+    print_slow("2. Parry Attack, you have ")
+    print(str(constants.parries) +  " parries left")
+    print_slow("\n")
+    print_slow("3. Use Consumables")
+    print_slow("\n")
+    print_slow("4. Retreat")
+    print_slow("\n")
+    print_slow("\n")
+    fighting_northernslythern = input("Choice: ")
+
+    if fighting_northernslythern.upper() == "1":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You attack the Northern Slythern.")
+        slythernmove_random = random.randrange(1, 8)
+        if slythernmove_random <= 3:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("The Slythern blocks your attack.")
+            fight_northernslythern()
+        elif slythernmove_random > 3:
+            slythernmove_random = random.randrange(1, 6)
+            if slythernmove_random <= 3:
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You and the Slythern attack at the same time.")
+                print_slow("\n")
+                print_slow("\n")
+                slytherndamage_random = random.randrange(15, 25)
+                constants.health -= slytherndamage_random
+                print_slow("The Slythern grazes you with its barbed tail.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("The Slythern dealt ")
+                print(str(slytherndamage_random) + " damage to you.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You now have ")
+                print(str(constants.health) + " health.")
+                damagetoslythern_random = random.randrange(15, 20)
+                constants.northernslythernhealth -= damagetoslythern_random
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("At the same time you manage to weave close enough to strike its unprotected stomach.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You dealt ")
+                print(str(damagetoslythern_random) + " damage to the Slythern.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("The Slythern now has ")
+                print(str(constants.northernslythernhealth + " health."))
+                if constants.northernslythernhealth <= 0:
+                    print_slow("\n")
+                    print_slow("\n")
+                    constants.northernslythernhealth = 0
+                    constants.TrackingNorthernSlyder_dunes = False
+                    constants.KilledNorthernSlythern = True
+                    constants.parries = 2
+                    print_slow("In a split second your sword finds its way into the Slythern's heart and it falls dead at your feet, twitching and oozing blood.")
+                    print_slow("\n")
+                    print_slow("\n")
+                    constants.health = 100
+                    print_slow("You regain all health for emerging victorious.")
+                    print_slow("\n")
+                    print_slow("\n")
+                    print_slow("To claim the gold go to any inn.")
+                    the_dunes()
+                elif constants.northernslythernhealth > 0:
+                    fight_northernslythern()  
+            elif slythernmove_random >= 4:
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("The Slythern fails to block or attack and you successfully damage it.")
+                damagetoslythern_random = random.randrange(25, 35)
+                constants.northernslythernhealth -= damagetoslythern_random
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You dealt", damagetoslythern_random, "damage to the Slythern.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You now have", constants.health, "health.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("The Slythern now has", constants.northernslythernhealth, "health.")
+                if constants.northernslythernhealth <= 0:
+                    print_slow("\n")
+                    print_slow("\n")
+                    constants.northernslythernhealth = 0
+                    constants.TrackingNorthernSlyder_dunes = False
+                    constants.KilledNorthernSlythern = True
+                    constants.parries = 2
+                    print_slow("In a split second your sword finds its way into the Slythern's heart and it falls dead at your feet, twitching and oozing blood.")
+                    print_slow("\n")
+                    print_slow("\n")
+                    constants.health = 100
+                    print_slow("You regain all health for emerging victorious.")
+                    print_slow("\n")
+                    print_slow("\n")
+                    print_slow("To claim the gold go to any inn.")
+                    the_dunes()
+                elif constants.northernslythernhealth > 0:
+                    fight_northernslythern()  
+    
+    if fighting_northernslythern.upper() == "2":
+        if constants.parries > 0:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You ready yourself to parry an attack.")
+            slythernattack_random = random.randrange(1, 2)
+            if slythernattack_random == 1:
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("The Slythern attacks and you parry aside its claw, leaving its chest unprotected. You take a large swing.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You dealt 50 damage to the Slythern.")
+                constants.northernslythernhealth -= 50
+                print_slow("\n")
+                print_slow("\n")
+                constants.parries -= 1
+                print_slow("You have used 1 parry.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You now have", constants.parries, "parries left.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You now have", constants.health, "health.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("The Slythern now has", constants.northernslythernhealth, "health.")
+                if constants.northernslythernhealth <= 0:
+                    print_slow("\n")
+                    print_slow("\n")
+                    constants.northernslythernhealth = 0
+                    constants.TrackingNorthernSlyder_dunes = False
+                    constants.KilledNorthernSlythern = True
+                    constants.parries = 2
+                    print_slow("In a split second your sword finds its way into the Slythern's heart and it falls dead at your feet, twitching and oozing blood.")
+                    print_slow("\n")
+                    print_slow("\n")
+                    constants.health = 100
+                    print_slow("You regain all health for emerging victorious.")
+                    print_slow("\n")
+                    print_slow("\n")
+                    print_slow("To claim the gold go to any inn.")
+                    the_dunes()
+                elif constants.northernslythernhealth > 0:
+                    fight_northernslythern()  
+            elif slythernattack_random == 2:
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You ready yourself to parry an attack which never comes.")
+                print_slow("\n")
+                print_slow("\n")
+                constants.parries -= 1
+                print_slow("You have wasted 1 parry.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You now have", constants.parries, "parries left.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("You now have", constants.health, "health.")
+                print_slow("\n")
+                print_slow("\n")
+                print_slow("The Slythern now has", constants.northernslythernhealth, "health.")
+                if constants.northernslythernhealth <= 0:
+                    print_slow("\n")
+                    print_slow("\n")
+                    constants.northernslythernhealth = 0
+                    constants.TrackingNorthernSlyder_dunes = False
+                    constants.KilledNorthernSlythern = True
+                    constants.parries = 2
+                    print_slow("In a split second your sword finds its way into the Slythern's heart and it falls dead at your feet, twitching and oozing blood.")
+                    print_slow("\n")
+                    print_slow("\n")
+                    constants.health = 100
+                    print_slow("You regain all health for emerging victorious.")
+                    print_slow("\n")
+                    print_slow("\n")
+                    print_slow("To claim the gold go to any inn.")
+                    the_dunes()
+                elif constants.northernslythernhealth > 0:
+                    fight_northernslythern()  
+        elif constants.parries <= 0:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have no more parries!")
+            fight_northernslythern()
+
+    if fighting_northernslythern.upper() == "4":
+        constants.TrackingNorthernSlyder_dunes = False
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You back away in defeat as the Northern Slythern hisses and bears its fangs.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Coward... you have", constants.health, "health.")
+        print_slow("\n")
+        print_slow("\n")
+        constants.parries = 2
+        constants.reputation += 10
+        print_slow("You have damaged your reputation! Your reputation is now at", constants.reputation, ", if it exceeds 100 shopkeeps will refuse to deal with you!")
+        the_dunes()
+
+def the_saltwave_harbour():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Travelling to Salt Wave Harbour...")
+    print_slow("\n")
+    print_slow("\n")
+    time.sleep(2)
+    print_slow("...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Arrived...")
+    time.sleep(2)
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - SALT WAVE HARBOUR - ")
+
+def buy_inn_items():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - BUY ITEMS - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - Consumables - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("1. Apple - 1 Gold")
+    print_slow("2. Banana - 1 Gold")
+    print_slow("3. Loaf of Bread - 1 Gold")
+    print_slow("4. Salted Meat - 5 Gold")
+    print_slow("5. Flask of Mead - 5 Gold")
+    print_slow("6. Flask of Wine - 8 Gold")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - Medical Items - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("7. Bandage - 2 Gold")
+    print_slow("8. Morphine - 10 Gold")
+    print_slow("9. Sewing Kit - 6 Gold")
+    print_slow("10. Adrenaline - 8 Gold")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("B. Back")
+    print_slow("C. Check your Items")
+    print_slow("\n")
+    print_slow("\n")
+    buy_item = input("Choice: ")
+
+    if buy_item.upper() == "1":
+        if constants.gold >= 1:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 Apple.")
+            constants.apples += 1
+            constants.gold -= 1
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.apples, "apples.")
+            buy_inn_items()
+            
+        elif constants.gold < 1:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "2":
+        if constants.gold >= 1:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 Banana.")
+            constants.bananas += 1
+            constants.gold -= 1
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.bananas, "bananas.")
+            buy_inn_items()
+
+        elif constants.gold < 1:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "3":
+        if constants.gold >= 1:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 Loaf of Bread.")
+            constants.loavesofbread += 1
+            constants.gold -= 1
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.loavesofbread, "loaves of bread.")
+            buy_inn_items()
+
+        elif constants.gold < 1:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "4":
+        if constants.gold >= 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 Salted Meat.")
+            constants.saltedmeat += 1
+            constants.gold -= 5
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.saltedmeat, "salted meat.")
+            buy_inn_items()
+
+        elif constants.gold < 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "5":
+        if constants.gold >= 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 Flask of Mead.")
+            constants.flaskofmead += 1
+            constants.gold -= 5
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.flaskofmead, "flasks of mead.")
+            buy_inn_items()
+
+        elif constants.gold < 5:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "6":
+        if constants.gold >= 8:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 Flask of Wine.")
+            constants.flaskofwine += 1
+            constants.gold -= 8
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.flaskofwine, "flasks of wine.")
+            buy_inn_items()
+
+        elif constants.gold < 8:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "7":
+        if constants.gold >= 2:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 Bandage.")
+            constants.gold -= 2
+            constants.bandages += 1
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.bandages, "bandages.")
+            buy_inn_items()
+
+        elif constants.gold < 2:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "8":
+        if constants.gold >= 10:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 shot of Morphine.")
+            constants.shotsofmorphine += 1
+            constants.gold -= 10
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.shotsofmorphine, "shots of morphine.")
+            buy_inn_items()
+
+        elif constants.gold < 10:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "9":
+        if constants.gold >= 6:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 Sewing Kit.")
+            constants.sewingkits += 1
+            constants.gold -= 6
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.sewingkits, "sewing kits.")
+            buy_inn_items()
+
+        elif constants.gold < 6:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "10":
+        if constants.gold >= 8:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("Purchased 1 shot of Adrenaline.")
+            constants.shotsofadrenaline += 1
+            constants.gold -= 8
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.gold, "gold.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You now have", constants.shotsofadrenaline, "shots of adrenaline.")
+            buy_inn_items()
+
+        elif constants.gold < 8:
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You cannot afford this item! Earn money by claiming monster bounties, the posters are upstairs.")
+            print_slow("\n")
+            print_slow("\n")
+            print_slow("You have", constants.gold, "gold.")
+            buy_inn_items()
+
+    elif buy_item.upper() == "B":
+        print_slow("\n")
+        print_slow("\n")
+        innkeep_choices()
+
+    elif buy_item.upper() == "C":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow(" - INVENTORY - ")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.gold, "gold.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.apples, "apples.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.bananas, "bananas.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.loavesofbread, "loaves of bread.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.saltedmeat, "salted meat.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.flaskofmead, "flasks of mead.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.flaskofwine, "flasks of wine.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.bandages, "bandages.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.shotsofmorphine, "shots of morphine.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.sewingkits, "sewing kits.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have", constants.shotsofadrenaline, "shots of adrenaline.")
+        buy_inn_items()
+
+def go_upstairs():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - Weapons - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - Armour - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow(" - Monster Bounties - ")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Track:")
+    if constants.TrackingNorthernSlyder_dunes == False:
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("1. 200 Gold Reward - DEAD - Northern Slythern, last seen near The Dunes.")
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("B. Back")
+        print_slow("\n")
+        print_slow("\n")
+        track_monster = input("Choice: ")
+
+    if track_monster.upper() == "1":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You have tracked this bounty, travel to The Dunes to find it.")
+        constants.TrackingNorthernSlyder_dunes = True
+        go_upstairs()
+
+    if track_monster.upper() == "B":
+        innkeep_choices()
+
+def innkeep_choices():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Your gold is now at ")
+    print(str(constants.gold) + ".")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Actions:")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("F. Fast Travel")
+    print_slow("\n")
+    print_slow("B. Buy Items")
+    print_slow("U. Go Upstairs")
+    print_slow("E. Exit Store")
+    print_slow("R. Rob Store")
+    if constants.KilledNorthernSlythern == True:
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("1. Claim Northern Slythern Bounty")
+        print_slow("\n")
+        print_slow("\n")    
+    inside_innkeep_choices = input("Choice: ")
+
+    if inside_innkeep_choices.upper() == "F":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Friendly Innkeep - Can't be bothered to get around on foot eh? Have a look at our options...")
+        fast_travel()
+
+    elif inside_innkeep_choices.upper() == "B":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Friendly Innkeep - Take a look at our items, the weapons and armour are upstairs.")
+        buy_inn_items()
+
+    elif inside_innkeep_choices.upper() == "U":
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("We've got a fine selection of weapons and armour up there, take a look around...")
+        go_upstairs()
+
+    elif inside_innkeep_choices.upper() == "E":
+        print_slow("\n")
+        print_slow("\n")
+        if constants.atTheCapital == True:
+            print_slow("Friendly Innkeep")
+            the_capital()
+
+    elif inside_innkeep_choices.upper() == "R":
+        print_slow("\n")
+        print_slow("\n")
+
+    elif inside_innkeep_choices.upper() == "1":
+        constants.KilledNorthernSlythern = False
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("Friendly Innkeep - Thank you for ridding us of that Northern Slythern, it was a troublesome beast. Here is your gold. You've earned it.")
+        constants.gold += 200
+        print_slow("\n")
+        print_slow("\n")
+        print_slow("You earned 200 gold!")
+        innkeep_choices()
+
+#Starting Game
+
+def help_information():
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Tips and Tricks...")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Hunger - Your hunger must be kept at zero! If it exceeds 100 you will die.")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Thirst - Your thirst must be kept at zero! If it exceeds 100 you will die.")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Health - Your health will be decreased when hit! If it decreases to 0 you will die.")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Reputation - This game has a reputation system, being rude will lose reputation and storekeepers won't sell to you.")
+    print_slow("\n")
+    print_slow("You can increase damaged reputation by helping others and slaying monsters.")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Gold - Get gold from killing monsters and claiming bounties, you can use gold to buy items and fast travel.")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Exploration - The higher your exploration the shorter time it takes to travel!")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Attack - The higher your attack the more damage you do to enemies!")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Ready to continue?")
+    print_slow("\n")
+    print_slow("\n")
+    print_slow("Y. Yes")
+    print_slow("\n")
+    print_slow("\n")
+    ready_continue = input("Choice: ")
+
+    if ready_continue.upper() == "Y":
+        game_introduction()
+
+print_slow("GAME TITLE")
+time.sleep(2)
+print_slow("\n")
+print_slow("\n")
+print_slow("P. Play")
+print_slow("\n")
+print_slow("Q. Quit")
+print_slow("\n")
+print_slow("\n")
+play_game = input("Choice: ")
+
+if play_game.upper() == "P":
+    help_information()
+    #startGame()
+
+elif play_game.upper() == "Q":
+    Alive = False
+
+##if Alive == True:
+##    print_slow("GAME TITLE")
+##    time.sleep(2)
+##    print_slow("\n")
+##    print_slow("\n")
+##    print_slow("P. Play")
+##    print_slow("\n")
+##    print_slow("Q. Quit")
+##    print_slow("\n")
+##    print_slow("\n")
+##    play_game = input("Choice: ")
+##
+##    if play_game.upper() == "P":
+##        help_information()
+##        #startGame()
+##
+##    elif play_game.upper() == "Q":
+##        Alive = False
+
+#Game End
+
+if Alive == False:
+    print_slow("Play Again Function")
